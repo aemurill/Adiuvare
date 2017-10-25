@@ -9,8 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -24,10 +27,13 @@ public class ListeningScreen extends AppCompatActivity {
 
     private TextToSpeech tts;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listening_screen);
+
+        Button SpeakButton = (Button) findViewById(R.id.Speak);
 
         // create a new text to speech object
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -65,6 +71,12 @@ public class ListeningScreen extends AppCompatActivity {
                 listen(); //<- this was a suggested method from an online tutorial
             }
         });
+        SpeakButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getText();
+            }
+        });
     }
 
     // we will use this to speak what someone types in
@@ -75,6 +87,14 @@ public class ListeningScreen extends AppCompatActivity {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+
+    // gets text from user input and is spoken
+    public void getText() {
+        EditText textInput = (EditText) findViewById(R.id.TextInput);
+        String text = textInput.getText().toString();
+        speak(text);
+    }
+
 
     private void listen(){
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
