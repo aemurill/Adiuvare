@@ -23,7 +23,7 @@ public class ListeningScreen extends AppCompatActivity {
 
     // Some SpeechRecognizer methods we might need:
     // void cancel(); cancels the speech recognition
-    // void destroy(); destroys the speechrecognizer object
+    // void destroy(); destroys the SpeechRecognizer object
 
     private TextToSpeech tts;
 
@@ -47,15 +47,15 @@ public class ListeningScreen extends AppCompatActivity {
                     // this is how we can have audio spoken, we just need to move it to an on-click listener
                     // and we need to give the user the ability to type in text and then press some button to
                     // say the text aloud. If you start the app now, this will be spoken first thing.
-                    speak("Hello");
+                    speak("Hello, this is a Test String");
 
                 } else {
-                    Log.e("TTS", "Initilization Failed!");
+                    Log.e("TTS", "Initialization Failed!");
                 }
             }
         });
 
-        // what do we want to happen when someone clicks on the headphones? here is a first attempt
+        // what do we want to happen when someone clicks on the headphones (currently an ear)? here is a first attempt
         findViewById(R.id.listenButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,11 +79,17 @@ public class ListeningScreen extends AppCompatActivity {
         });
     }
 
+
+
     // we will use this to speak what someone types in
     private void speak(String text){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
         }else{
+            // https://developer.android.com/reference/android/speech/tts/TextToSpeech.html
+            // 'This method was deprecated in API level 21. As of API level 21, replaced by speak(CharSequence, int, Bundle, String).'
+            // We likely shouldn't use the replacement method, since our minimum API level is 16.
+            // Ignore the error Android Studio keeps highlighting, ignore this comment
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
@@ -94,6 +100,7 @@ public class ListeningScreen extends AppCompatActivity {
         String text = textInput.getText().toString();
         speak(text);
     }
+
 
 
     private void listen(){
@@ -114,7 +121,7 @@ public class ListeningScreen extends AppCompatActivity {
         Toast.makeText(ListeningScreen.this, "Results Received, Processing for some reason", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100){
-            if (resultCode == RESULT_OK && null != data) {
+            if (resultCode == RESULT_OK && data != null) {
                 ArrayList<String> res = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 String inSpeech = res.get(0);
                 recognition(inSpeech);
