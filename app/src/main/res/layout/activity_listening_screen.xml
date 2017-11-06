@@ -23,35 +23,43 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp" />
 
-    <EditText
-        android:id="@+id/TextInput"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Type text to be spoken"
-        android:inputType="textCapSentences|textAutoCorrect"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="54dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.502" />
-    <Button
-        android:id="@+id/Speak"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Speak"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/TextInput"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.464" />
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true">
+
+        <EditText
+            android:id="@+id/TextInput"
+            android:layout_margin="40dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type text to be spoken"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:maxLines="8"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_margin="40dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/TextInput">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear Text"/>
+
+            <Button
+                android:id="@+id/Speak"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Speak"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

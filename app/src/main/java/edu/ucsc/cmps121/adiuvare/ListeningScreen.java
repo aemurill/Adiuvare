@@ -44,10 +44,6 @@ public class ListeningScreen extends AppCompatActivity {
                     if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "This Language is not supported");
                     }
-                    // this is how we can have audio spoken, we just need to move it to an on-click listener
-                    // and we need to give the user the ability to type in text and then press some button to
-                    // say the text aloud. If you start the app now, this will be spoken first thing.
-                    speak("Hello, this is a Test String");
 
                 } else {
                     Log.e("TTS", "Initialization Failed!");
@@ -94,7 +90,7 @@ public class ListeningScreen extends AppCompatActivity {
         }
     }
 
-    // gets text from user input and is spoken
+    // gets text from user input and is spoken as soon as the "SPEAK" button is selected
     public void getText() {
         EditText textInput = (EditText) findViewById(R.id.TextInput);
         String text = textInput.getText().toString();
@@ -107,7 +103,7 @@ public class ListeningScreen extends AppCompatActivity {
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say something");
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Listening");
 
         try {
             startActivityForResult(i, 100);
@@ -118,7 +114,7 @@ public class ListeningScreen extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(ListeningScreen.this, "Results Received, Processing for some reason", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ListeningScreen.this, "Results Received", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100){
             if (resultCode == RESULT_OK && data != null) {
