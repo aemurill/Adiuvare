@@ -11,10 +11,6 @@ import android.widget.EditText;
 
 import java.util.Locale;
 
-/**
- * Created by MadelineConner on 11/12/17.
- */
-
 public class SpeakingScreen extends AppCompatActivity {
 
     private TextToSpeech tts;
@@ -26,6 +22,8 @@ public class SpeakingScreen extends AppCompatActivity {
         setContentView(R.layout.activity_speaking_screen);
 
         Button SpeakButton = (Button) findViewById(R.id.Speak);
+        Button ClearText = (Button) findViewById(R.id.ClearText);
+
 
         // create a new text to speech object
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -49,6 +47,14 @@ public class SpeakingScreen extends AppCompatActivity {
             public void onClick(View view) {
                 getText();
             }
+        });
+
+        ClearText.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view){
+               EditText Input = (EditText) findViewById(R.id.TextInput);
+               Input.setText("");
+           }
         });
 
     }

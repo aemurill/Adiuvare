@@ -21,15 +21,10 @@ import static android.speech.SpeechRecognizer.isRecognitionAvailable;
 
 public class ListeningScreen extends AppCompatActivity {
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listening_screen);
-
-
 
         // what do we want to happen when someone clicks on the headphones (currently an ear)? here is a first attempt
         findViewById(R.id.listenButton).setOnClickListener(new View.OnClickListener() {

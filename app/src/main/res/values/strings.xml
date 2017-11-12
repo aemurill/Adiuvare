@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Adiuvare</string>
     <string name="Speak">Speak</string>
+    <string name="ClearText">Clear Text</string>
 </resources>

@@ -31,9 +31,10 @@
             android:layout_below="@+id/TextInput">
 
             <Button
+                android:id="@+id/ClearText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clear Text"/>
+                android:text="@string/ClearText"/>
 
             <Button
                 android:id="@+id/Speak"
