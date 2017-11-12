@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucsc.cmps121.adiuvare.MainActivity">
+
+    <Button android:id="@+id/Resume_Game"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="openListening"
+        android:text="Listening Assistance"
+        android:textSize="40dp"/>
+
+    <Button android:id="@+id/New_Game"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="openSpeaking"
+        android:text="Speaking Assistance"
+        android:textSize="40dp"/>
+
+</LinearLayout>
