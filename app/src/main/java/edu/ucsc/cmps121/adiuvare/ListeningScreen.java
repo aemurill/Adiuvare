@@ -123,4 +123,10 @@ public class ListeningScreen extends Activity implements View.OnClickListener {
             }
         }
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        sr.destroy();
+    }
 }
