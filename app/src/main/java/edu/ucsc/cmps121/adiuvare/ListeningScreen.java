@@ -1,7 +1,10 @@
 package edu.ucsc.cmps121.adiuvare;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +24,16 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static android.content.ContentValues.TAG;
 import static android.speech.RecognizerIntent.getVoiceDetailsIntent;
 import static android.speech.SpeechRecognizer.createSpeechRecognizer;
 import static android.speech.SpeechRecognizer.isRecognitionAvailable;
 
-public class ListeningScreen extends AppCompatActivity {
+public class ListeningScreen extends Activity implements View.OnClickListener {
 
+    private TextView mText;
+    private SpeechRecognizer sr;
+    private static final String TAG = "Adiuvare Listens";
 
 
     @Override
@@ -33,68 +41,86 @@ public class ListeningScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listening_screen);
 
-        // code to execute when someone selects the ear
-        findViewById(R.id.listenButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean available = isRecognitionAvailable(ListeningScreen.this);
-                if (available) {
-                    // then notify & try to recognize speech
-                    Toast.makeText(ListeningScreen.this, "Begin Listening", Toast.LENGTH_SHORT).show();
-                    listen();
-                } else {
-                    Toast.makeText(ListeningScreen.this, "Sorry, your phone does not have speech recognition capabilities", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        // request permissions as soon as we get to this screen
+        requestRecordAudioPermission();
+
+        // declare our two views: the image button users click and the location where the text will be displayed
+        ImageButton speakButton = findViewById(R.id.listenButton);
+        mText = findViewById(R.id.displayVocal);
+
+        // set the listener for the speak button and create new speech recognizer
+        speakButton.setOnClickListener(this);
+        sr = SpeechRecognizer.createSpeechRecognizer(this);
+        sr.setRecognitionListener(new listener());
 
     }
 
-    private void listen(){
-        //SpeechRecognizer listening = createSpeechRecognizer(this);
-        //RecognitionListener test = listening.getVoiceDetailsIntent(this);
-        //listening.startListening(test);
-        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US"); // for english only
-        //i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        //i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        //i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Listening");
+    class listener implements RecognitionListener {
+        // need a method for each to implement the recognition listener
+        public void onReadyForSpeech(Bundle params) {
+            Log.d(TAG, "onReadyForSpeech");
+        }
+        public void onBeginningOfSpeech() {
+            Log.d(TAG, "onBeginningOfSpeech");
+        }
+        public void onRmsChanged(float rmsdB) {
+            Log.d(TAG, "onRmsChanged");
+        }
+        // buffer might also be a good use of putting text as it is interpreted in phase 2
+        public void onBufferReceived(byte[] buffer) {
+            Log.d(TAG, "onBufferReceived");
+        }
+        public void onEndOfSpeech() {
+            Log.d(TAG, "onEndofSpeech");
+        }
+        public void onError(int error) {
+            Log.d(TAG,  "error " +  error);
+        }
 
-        try {
-            startActivityForResult(i, 1);
-            //displayResults.setText("");
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(ListeningScreen.this, "Your device doesn't support Speech Recognition", Toast.LENGTH_SHORT).show();
+        // right now just logging the first result, but in the next phase we can check the confidence
+        // of each result and then just log (display) the result with the highest confidence level!
+        public void onResults(Bundle results) {
+            String str = new String();
+            Log.d(TAG, "onResults " + results);
+            ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            for (int i = 0; i < data.size(); i++)
+            {
+                Log.d(TAG, "result " + data.get(i));
+                str += data.get(i);
+            }
+            mText.setText(mText.getText() + "\n" + data.get(0)); // append new results underneath for now
+        }
+        // later (phase 2) we might want to use this to display results in real time, & append current string,
+        // then we would want the textview to be scrollable and appendable!
+        public void onPartialResults(Bundle partialResults) {
+            Log.d(TAG, "onPartialResults");
+        }
+        public void onEvent(int eventType, Bundle params) {
+            Log.d(TAG, "onEvent " + eventType);
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(ListeningScreen.this, "Results Received", Toast.LENGTH_SHORT).show();
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            Toast.makeText(ListeningScreen.this, "FOUND RQC 1", Toast.LENGTH_SHORT).show();
-            if (null != data){ // not result_ok
-                Toast.makeText(ListeningScreen.this, "Data is not null", Toast.LENGTH_SHORT).show();
-            }else if (resultCode == RESULT_OK && null != data) {
-                ArrayList<String> res = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                String inSpeech = res.get(0);
-                Log.e("Speech",""+inSpeech);
-                TextView displayResults = (TextView) findViewById(R.id.displayVocal);
-                displayResults.setText(inSpeech);
-
-            } else {
-                TextView displayResults = (TextView) findViewById(R.id.displayVocal);
-                displayResults.setText("Something didn't work");
-            }
+    // on click, check for permissions (again) and then begin listening as a new intent
+    public void onClick(View v) {
+        if (v.getId() == R.id.listenButton) {
+            requestRecordAudioPermission();
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
+            sr.startListening(intent);
         }
     }
 
-    private void recognition(String text){
-        Log.e("Speech",""+text);
+    // Need permission from the user to access their audio
+    private void requestRecordAudioPermission() {
+        Log.d(TAG, "Trying to request permissions");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String requiredPermission = Manifest.permission.RECORD_AUDIO;
+            // If the permission is not permitted already, request permissions again
+            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
+                Log.d(TAG, "Audio Permissions Denied");
+                requestPermissions(new String[]{requiredPermission}, 101);
+            }
+        }
     }
-
-    // if voice recognition begins, display cancel recognition symbol and then execute .cancel() method
-
-
 }
