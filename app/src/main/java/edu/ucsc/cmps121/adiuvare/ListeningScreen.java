@@ -3,8 +3,11 @@ package edu.ucsc.cmps121.adiuvare;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -18,7 +21,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListeningScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,92 +38,71 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listening_screen);
 
-        // request permissions as soon as we get to this screen
-        requestRecordAudioPermission();
-
         // declare our two views: the image button users click and the location where the text will be displayed
         ImageButton speakButton = (ImageButton) findViewById(R.id.listenButton);
         mText = (TextView) findViewById(R.id.displayVocal);
 
         // set the listener for the speak button and create new speech recognizer
         speakButton.setOnClickListener(this);
-        sr = SpeechRecognizer.createSpeechRecognizer(this);
-        sr.setRecognitionListener(new listener());
-
-    }
-
-    class listener implements RecognitionListener {
-        // need a method for each to implement the recognition listener
-        public void onReadyForSpeech(Bundle params) {
-            Log.d(TAG, "onReadyForSpeech");
-        }
-        public void onBeginningOfSpeech() {
-            Log.d(TAG, "onBeginningOfSpeech");
-        }
-        public void onRmsChanged(float rmsdB) {
-            Log.d(TAG, "onRmsChanged");
-        }
-        // buffer might also be a good use of putting text as it is interpreted in phase 2
-        public void onBufferReceived(byte[] buffer) {
-            Log.d(TAG, "onBufferReceived");
-        }
-        public void onEndOfSpeech() {
-            Log.d(TAG, "onEndofSpeech");
-        }
-        public void onError(int error) {
-            Log.d(TAG,  "error " +  error);
-        }
-
-        // right now just logging the first result, but in the next phase we can check the confidence
-        // of each result and then just log (display) the result with the highest confidence level!
-        public void onResults(Bundle results) {
-            String str = "";
-            Log.d(TAG, "onResults " + results);
-            ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            for (int i = 0; i < data.size(); i++)
-            {
-                Log.d(TAG, "result " + data.get(i));
-                str += data.get(i);
-            }
-            mText.setText(mText.getText() + "\n" + data.get(0)); // append new results underneath for now
-        }
-        // later (phase 2) we might want to use this to display results in real time, & append current string,
-        // then we would want the textview to be scrollable and appendable!
-        public void onPartialResults(Bundle partialResults) {
-            Log.d(TAG, "onPartialResults");
-        }
-        public void onEvent(int eventType, Bundle params) {
-            Log.d(TAG, "onEvent " + eventType);
-        }
     }
 
     // on click, check for permissions (again) and then begin listening as a new intent
     public void onClick(View v) {
         if (v.getId() == R.id.listenButton) {
-            requestRecordAudioPermission();
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-            intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
-            sr.startListening(intent);
+            startSpeechRecognition();
         }
     }
 
-    // Need permission from the user to access their audio
-    private void requestRecordAudioPermission() {
-        Log.d(TAG, "Trying to request permissions");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String requiredPermission = Manifest.permission.RECORD_AUDIO;
-            // If the permission is not permitted already, request permissions again
-            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
-                Log.d(TAG, "Audio Permissions Denied");
-                requestPermissions(new String[]{requiredPermission}, 101);
+    public void startSpeechRecognition() {
+        // Fire an intent to start the speech recognition activity.
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
+        // secret parameters that when added provide audio url in the result
+        intent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/AMR");
+        intent.putExtra("android.speech.extra.GET_AUDIO", true);
+
+        startActivityForResult(intent, 121);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 121 && resultCode == RESULT_OK) {
+            // the resulting text is in the getExtras:
+            Bundle bundle = data.getExtras();
+            ArrayList<String> matches = bundle.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+
+            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            // the recording uri is in getData:
+            String str = "";
+            Log.d(TAG, "onResults " + results);
+            ArrayList list = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            for (int i = 0; i < list.size(); i++) {
+                Log.d(TAG, "result " + list.get(i));
+                str += list.get(i);
             }
+            mText.setText(mText.getText() + "\n" + list.get(0)); // append new results underneath for now
+
+
+            Uri audioUri = data.getData();
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                // mediaPlayer.setDataSource(String.valueOf(myUri));
+                mediaPlayer.setDataSource(this, audioUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.start();
         }
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        sr.destroy();
     }
 }
