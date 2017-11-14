@@ -14,22 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
-import static android.speech.RecognizerIntent.getVoiceDetailsIntent;
-import static android.speech.SpeechRecognizer.createSpeechRecognizer;
-import static android.speech.SpeechRecognizer.isRecognitionAvailable;
-
-public class ListeningScreen extends Activity implements View.OnClickListener {
+public class ListeningScreen extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mText;
     private SpeechRecognizer sr;
@@ -45,8 +36,8 @@ public class ListeningScreen extends Activity implements View.OnClickListener {
         requestRecordAudioPermission();
 
         // declare our two views: the image button users click and the location where the text will be displayed
-        ImageButton speakButton = findViewById(R.id.listenButton);
-        mText = findViewById(R.id.displayVocal);
+        ImageButton speakButton = (ImageButton) findViewById(R.id.listenButton);
+        mText = (TextView) findViewById(R.id.displayVocal);
 
         // set the listener for the speak button and create new speech recognizer
         speakButton.setOnClickListener(this);
@@ -80,7 +71,7 @@ public class ListeningScreen extends Activity implements View.OnClickListener {
         // right now just logging the first result, but in the next phase we can check the confidence
         // of each result and then just log (display) the result with the highest confidence level!
         public void onResults(Bundle results) {
-            String str = new String();
+            String str = "";
             Log.d(TAG, "onResults " + results);
             ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             for (int i = 0; i < data.size(); i++)
