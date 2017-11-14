@@ -23,6 +23,8 @@ public class SpeakingScreen extends AppCompatActivity {
 
         Button SpeakButton = (Button) findViewById(R.id.Speak);
         Button ClearText = (Button) findViewById(R.id.ClearText);
+        //holding off on making the button invisible for now
+        Button stopButton = (Button) findViewById(R.id.Stop);
 
 
         // create a new text to speech object
@@ -57,6 +59,18 @@ public class SpeakingScreen extends AppCompatActivity {
            }
         });
 
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopSpeaking();
+            }
+        });
+
+    }
+
+    //function stops sound
+    public void stopSpeaking() {
+        if (tts.isSpeaking()) tts.stop();
     }
 
     // gets text from user input and is spoken as soon as the "SPEAK" button is selected

@@ -7,6 +7,7 @@
     tools:context="edu.ucsc.cmps121.adiuvare.SpeakingScreen">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -14,36 +15,46 @@
 
         <EditText
             android:id="@+id/TextInput"
-            android:layout_margin="40dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="40dp"
             android:gravity="bottom|left"
-            android:lines="5"
             android:hint="Type text to be spoken"
             android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-            android:layout_centerInParent="true"/>
+            android:lines="5" />
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_margin="40dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/TextInput">
+            android:layout_below="@+id/TextInput"
+            android:layout_margin="40dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/ClearText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ClearText"/>
+                android:text="@string/ClearText" />
 
             <Button
                 android:id="@+id/Speak"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Speak"/>
+                android:text="@string/Speak" />
 
         </LinearLayout>
 
+
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/Stop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Stop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
 
 </android.support.constraint.ConstraintLayout>

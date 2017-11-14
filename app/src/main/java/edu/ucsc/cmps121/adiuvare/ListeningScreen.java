@@ -18,8 +18,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +32,9 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
 
     private TextView mText;
     private SpeechRecognizer sr;
+    //used to control volume throughout class
+    private float leftVolume = 0.4f;
+    private float rightVolume = 0.4f;
     private static final String TAG = "Adiuvare Listens";
 
 
@@ -42,6 +47,24 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         ImageButton speakButton = (ImageButton) findViewById(R.id.listenButton);
         mText = (TextView) findViewById(R.id.displayVocal);
 
+        //volume control buttons
+        Button volumeUpButton = (Button) findViewById(R.id.Plus);
+        Button volumeDownButton = (Button) findViewById(R.id.Minus);
+
+        volumeUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseVolume();
+            }
+        });
+
+        volumeDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decreaseVolume();
+            }
+        });
+
         // set the listener for the speak button and create new speech recognizer
         speakButton.setOnClickListener(this);
     }
@@ -51,6 +74,26 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         if (v.getId() == R.id.listenButton) {
             startSpeechRecognition();
         }
+    }
+
+    //functions increase both left and right sides same amount for now
+    //0.2 increment is arbitrary
+    public void increaseVolume() {
+        if (leftVolume < 1.0f && rightVolume < 1.0f) {
+            leftVolume += 0.2f;
+            rightVolume += 0.2f;
+            Toast.makeText(ListeningScreen.this, ((String) ("Volume: " + leftVolume)), Toast.LENGTH_LONG).show();
+        }
+        else Toast.makeText(ListeningScreen.this, "Max Volume", Toast.LENGTH_LONG).show();
+    }
+
+    public void decreaseVolume() {
+        if (leftVolume > 0.2f && rightVolume > 0.2f) {
+            leftVolume -= 0.2f;
+            rightVolume -= 0.2f;
+            Toast.makeText(ListeningScreen.this, ((String) ("Volume: " + leftVolume)), Toast.LENGTH_LONG).show();
+        }
+        else Toast.makeText(ListeningScreen.this, "Min Volume", Toast.LENGTH_LONG).show();
     }
 
     public void startSpeechRecognition() {
@@ -82,10 +125,11 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
                 str += list.get(i);
             }
             mText.setText(mText.getText() + "\n" + list.get(0)); // append new results underneath for now
-
+            //stopButton instantiated here bc it will only appear when something is playing
+            final Button stopButton = (Button) findViewById(R.id.Stop);
 
             Uri audioUri = data.getData();
-            MediaPlayer mediaPlayer = new MediaPlayer();
+            final MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 // mediaPlayer.setDataSource(String.valueOf(myUri));
                 mediaPlayer.setDataSource(this, audioUri);
@@ -98,6 +142,29 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
             mediaPlayer.start();
+            mediaPlayer.setVolume(leftVolume,rightVolume);
+            //makes stop button visible once sound plays
+            stopButton.setVisibility(View.VISIBLE);
+            //If stop button is clicked then sound stops and button is invisible again
+            stopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stopPlayback(mediaPlayer,stopButton);
+                }
+            });
+            //if there is no sound then stop button is invisible again
+            //DOESN'T WORK AS INTENDED YET
+            if (mediaPlayer.isPlaying()) stopButton.setVisibility(View.VISIBLE);
+
+
+        }
+    }
+
+    //method to stop sound created for easy reading
+    public void stopPlayback(MediaPlayer mp, Button b) {
+        if (mp.isPlaying()) {
+            mp.stop();
+            b.setVisibility(View.INVISIBLE);
         }
     }
 

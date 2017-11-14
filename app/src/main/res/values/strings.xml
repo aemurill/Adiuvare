@@ -2,4 +2,7 @@
     <string name="app_name">Adiuvare</string>
     <string name="Speak">Speak</string>
     <string name="ClearText">Clear Text</string>
+    <string name="Stop">Stop</string>
+    <string name="Plus">+</string>
+    <string name="Minus">-</string>
 </resources>

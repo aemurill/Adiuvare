@@ -6,21 +6,47 @@
     android:layout_height="match_parent"
     tools:context="edu.ucsc.cmps121.adiuvare.ListeningScreen">
 
+    <Button
+        android:id="@+id/Plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/Plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/Minus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Plus" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
+
         <ImageButton
             android:id="@+id/listenButton"
-            android:src="@mipmap/audio_on"
-            android:layout_width="fill_parent"
+            android:layout_width="301dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@null"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/audio_on" />
+        <Button
+            android:id="@+id/Stop"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Stop"
+            android:visibility="invisible"/>
 
         <ScrollView
             android:layout_width="match_parent"
