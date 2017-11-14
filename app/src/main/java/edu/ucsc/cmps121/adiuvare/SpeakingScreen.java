@@ -8,13 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Locale;
 
 public class SpeakingScreen extends AppCompatActivity {
 
     private TextToSpeech tts;
-
+    private static final String TAG = "Adiuvare Listens";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class SpeakingScreen extends AppCompatActivity {
 
         Button SpeakButton = (Button) findViewById(R.id.Speak);
         Button ClearText = (Button) findViewById(R.id.ClearText);
+        Button StopButton = (Button) findViewById(R.id.Stop);
 
 
         // create a new text to speech object
@@ -41,7 +43,12 @@ public class SpeakingScreen extends AppCompatActivity {
             }
         });
 
-
+        StopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopSpeaking();
+            }
+        });
         SpeakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +64,11 @@ public class SpeakingScreen extends AppCompatActivity {
            }
         });
 
+    }
+
+    //stops current output and removes all items from queue
+    public void stopSpeaking() {
+        if (tts.isSpeaking()) tts.stop();
     }
 
     // gets text from user input and is spoken as soon as the "SPEAK" button is selected
