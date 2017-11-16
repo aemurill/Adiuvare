@@ -21,6 +21,9 @@
         <activity android:name=".SpeakingScreen"
             android:parentActivityName=".MainActivity" >
         </activity>
+        <activity android:name=".ListeningScreenNoText"
+            android:parentActivityName=".MainActivity" >
+        </activity>
         <activity android:name=".ListeningScreen"
             android:parentActivityName=".MainActivity" >
         </activity>

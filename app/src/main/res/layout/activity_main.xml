@@ -6,15 +6,23 @@
     android:layout_height="match_parent"
     tools:context="edu.ucsc.cmps121.adiuvare.MainActivity">
 
-    <Button android:id="@+id/Resume_Game"
+    <Button android:id="@+id/listeningWithText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:onClick="openListening"
-        android:text="Listening Assistance"
+        android:text="Speech to Text"
         android:textSize="40dp"/>
 
-    <Button android:id="@+id/New_Game"
+    <Button android:id="@+id/listeningWithoutText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="openStrictlyListening"
+        android:text="Amplify Audio"
+        android:textSize="40dp"/>
+
+    <Button android:id="@+id/speakingAssistance"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

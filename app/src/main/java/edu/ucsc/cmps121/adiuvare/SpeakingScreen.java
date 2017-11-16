@@ -24,7 +24,6 @@ public class SpeakingScreen extends AppCompatActivity {
 
         Button SpeakButton = (Button) findViewById(R.id.Speak);
         Button ClearText = (Button) findViewById(R.id.ClearText);
-        Button StopButton = (Button) findViewById(R.id.Stop);
 
 
         // create a new text to speech object
@@ -43,12 +42,6 @@ public class SpeakingScreen extends AppCompatActivity {
             }
         });
 
-        StopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopSpeaking();
-            }
-        });
         SpeakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

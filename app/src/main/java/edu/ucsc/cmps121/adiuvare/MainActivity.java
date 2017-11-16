@@ -23,4 +23,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ListeningScreen.class);
         startActivity(intent);
     }
+
+    protected void openStrictlyListening(View view){
+        Intent intent = new Intent(this, ListeningScreenNoText.class);
+        startActivity(intent);
+    }
 }
