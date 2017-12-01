@@ -7,22 +7,18 @@
     android:background="@color/colorPrimaryDark"
     tools:context="edu.ucsc.cmps121.adiuvare.ListeningScreen">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ImageButton
+        android:id="@+id/amplifyAudio"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <ImageButton
-            android:id="@+id/amplifyAudio"
-            android:src="@mipmap/audio_on"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@null"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@null"
+        android:contentDescription="@string/Speak"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/audio_on"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
