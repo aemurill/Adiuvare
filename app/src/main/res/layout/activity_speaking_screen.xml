@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context="edu.ucsc.cmps121.adiuvare.SpeakingScreen">
+
 
     <LinearLayout
         android:id="@+id/mainLayout"
@@ -23,7 +25,12 @@
             android:layout_centerInParent="true"
             android:layout_margin="40dp"
             android:gravity="bottom|left"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blueLight"
+            android:textColorHighlight="@color/blueLight"
+            android:textCursorDrawable="@color/blueLight"
             android:hint="Type text to be spoken"
+            android:textColorHint="@color/white"
             android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
             android:textSize="40dp"
             android:lines="3" />

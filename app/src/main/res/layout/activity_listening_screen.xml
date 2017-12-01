@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context="edu.ucsc.cmps121.adiuvare.ListeningScreen">
 
     <LinearLayout
@@ -13,14 +14,14 @@
 
         <ImageButton
             android:id="@+id/listenButton"
-            android:src="@mipmap/audio_on"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:background="@null"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/microphone" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -34,6 +35,7 @@
             android:gravity="center"
             android:layout_gravity="bottom"
             android:layout_width="fill_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"/>
 
         </ScrollView>
