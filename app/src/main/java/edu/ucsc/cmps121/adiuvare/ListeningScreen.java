@@ -48,17 +48,6 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         sr.setRecognitionListener(new listener());
     }
 
-    public void showPopup(View v) {
-        TextView textClose = (TextView) helpDialog.findViewById(R.id.textClose);
-        textClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helpDialog.dismiss();
-            }
-        });
-        helpDialog.show();
-    }
-
 
     class listener implements RecognitionListener {
         // need a method for each to implement the recognition listener

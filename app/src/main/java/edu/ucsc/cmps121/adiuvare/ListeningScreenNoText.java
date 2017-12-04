@@ -68,6 +68,9 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
                 ledIndicator.setImageResource(R.mipmap.lightoff);
             }
         }
+        else if (v.getId() == R.id.textClose) {
+            helpDialog.dismiss();
+        }
     }
 
     @Override
@@ -80,8 +83,23 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
         ledIndicator = (ImageView) findViewById(R.id.ledIndicator);
         speakButton.setOnClickListener(this);
 
+        helpDialog = new Dialog(this);
+
 
         Log.i(TAG, "Making Thread");
+    }
+
+    public void showPopup(View v) {
+        helpDialog.setContentView(R.layout.how_to_use_popup);
+        TextView textClose = (TextView) helpDialog.findViewById(R.id.textClose);
+        textClose.setOnClickListener(this);
+        /*textClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpDialog.dismiss();
+            }
+        });*/
+        helpDialog.show();
     }
 
 
