@@ -6,5 +6,7 @@
     <color name="green">#45BC62</color>
     <color name="orange">#EAAD43</color>
     <color name="white">#FFF</color>
+    <color name="black">#000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="grey">#c6cad1</color>
 </resources>
