@@ -66,7 +66,7 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         }
         public void onEndOfSpeech() {
             Log.d(TAG, "onEndofSpeech");
-        }
+        } // TO-DO ADD THE RECORDING LIGHT HERE
         public void onError(int error) {
             Log.d(TAG,  "error " +  error);
         }

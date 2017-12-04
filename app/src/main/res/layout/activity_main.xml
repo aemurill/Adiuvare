@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textSize="40dp"
             android:textColor="@color/white"
-            android:drawableRight="@drawable/ic_keyboard_voice_black_90dp"
+            android:drawableRight="@drawable/ic_phonelink_ring_black_90dp"
             android:gravity="right"
             android:layout_margin="10dp"
             android:layout_weight="1"/>

@@ -135,7 +135,7 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
 
             Log.i("LOG","Initializing Audio Record and Audio Playing objects");
 
-            m_record = new AudioRecord(MediaRecorder.AudioSource.DEFAULT, SAMPLE_RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO
+            m_record = new AudioRecord(MediaRecorder.AudioSource.MIC, SAMPLE_RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO
                     , AudioFormat.ENCODING_PCM_16BIT, bufferSize * 1);
 
             m_track = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO
