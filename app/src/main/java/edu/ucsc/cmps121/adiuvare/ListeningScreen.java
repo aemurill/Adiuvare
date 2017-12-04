@@ -2,6 +2,7 @@ package edu.ucsc.cmps121.adiuvare;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +27,8 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
     private SpeechRecognizer sr;
     private static final String TAG = "Adiuvare Listens";
 
+    Dialog helpDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,19 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         speakButton.setOnClickListener(this);
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(new listener());
-
     }
+
+    public void showPopup(View v) {
+        TextView textClose = (TextView) helpDialog.findViewById(R.id.textClose);
+        textClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpDialog.dismiss();
+            }
+        });
+        helpDialog.show();
+    }
+
 
     class listener implements RecognitionListener {
         // need a method for each to implement the recognition listener

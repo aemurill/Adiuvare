@@ -4,4 +4,9 @@
     <string name="ClearText">Clear</string>
     <string name="Stop">Stop</string>
     <string name="RecognitionSensitivity">Recognition Sensitivity</string>
+    <string name="Info">Help Info</string>
+    <string name="AmplifyInstructions">Tap the microphone once to begin listening session. Tap again to end session</string>
+    <string name="LightInfo">This light turns on while listening session is active</string>
+    <string name="Help">\u003f</string>
+    <string name="HeadsetInfo">To avoid microphone feedback, make sure a headset is connected to mobile device</string>
 </resources>

@@ -1,6 +1,7 @@
 package edu.ucsc.cmps121.adiuvare;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
@@ -15,9 +16,14 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -28,6 +34,9 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
     private String filename = "Adiuvare";
     private boolean state = true;
     boolean m_isRun;
+    private ImageView ledIndicator;
+    Dialog helpDialog;
+
 
     private Thread m_thread;
 
@@ -42,6 +51,7 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
             if(state) {
                 requestRecordAudioPermission();
                 Toast.makeText(this, "CLICKED: "+state , Toast.LENGTH_LONG).show();
+                ledIndicator.setImageResource(R.mipmap.lighton);
                 m_thread = new Thread(new Runnable() {
 
                     @Override
@@ -55,6 +65,7 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
             }else{
                 state = true;
                 m_isRun = false;
+                ledIndicator.setImageResource(R.mipmap.lightoff);
             }
         }
     }
@@ -66,10 +77,14 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
 
         setContentView(R.layout.activity_listening_screen_only);
         ImageButton speakButton = (ImageButton) findViewById(R.id.amplifyAudio);
+        ledIndicator = (ImageView) findViewById(R.id.ledIndicator);
         speakButton.setOnClickListener(this);
+
 
         Log.i(TAG, "Making Thread");
     }
+
+
 
     // Need permission from the user to access their audio
     private void requestRecordAudioPermission() {
