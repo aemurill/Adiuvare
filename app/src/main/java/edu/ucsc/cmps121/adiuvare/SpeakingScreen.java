@@ -2,6 +2,7 @@ package edu.ucsc.cmps121.adiuvare;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class SpeakingScreen extends AppCompatActivity {
@@ -57,6 +60,18 @@ public class SpeakingScreen extends AppCompatActivity {
            }
         });
 
+    }
+
+    public List getLanguages() {
+        Locale[] locales = Locale.getAvailableLocales();
+        List<Locale> localeList = new ArrayList<Locale>();
+        for (Locale locale : locales) {
+            int res = tts.isLanguageAvailable(locale);
+            if (res == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
+                localeList.add(locale);
+            }
+        }
+        return localeList;
     }
 
     //stops current output and removes all items from queue

@@ -5,8 +5,22 @@
     <string name="Stop">Stop</string>
     <string name="RecognitionSensitivity">Recognition Sensitivity</string>
     <string name="Info">Help Info</string>
-    <string name="AmplifyInstructions">Tap the microphone once to begin listening session. Tap again to end session</string>
-    <string name="LightInfo">This light turns on while listening session is active</string>
+    <string name="AmplifyInstructions">Tap the microphone once to begin listening session. Tap again to end session.</string>
+    <string name="LightInfo">This light turns on while listening session is active.</string>
     <string name="Help">\u003f</string>
-    <string name="HeadsetInfo">To avoid microphone feedback, make sure a headset is connected to mobile device</string>
+    <string name="HeadsetInfo">To avoid microphone feedback, make sure a headset is connected to mobile device.</string>
+    <string name="Language">Change Language</string>
+    <string name="microphone_button">Microphone Button</string>
+    <string name="led_indicator_light">Led Indicator Light</string>
+    <string name="Speaking_Prompt">Type text to be spoken</string>
+    <string name="headset_desc" >headset image</string>
+    <string name="x">X</string>
+    <string-array name="LanguageOptions"></string-array>
+    <string name="SpeechRecogInstructions">Tap the microphone once to begin listening session. Session will end as soon as it goes quiet.</string>
+    <string name="speak_it">SPEAK IT</string>
+    <string name="text_to_speech">Text to Speech</string>
+    <string name="read_it">READ IT</string>
+    <string name="speech_to_text">Speech to Text</string>
+    <string name="amplify_audio">Amplify Audio</string>
+    <string name="hear_it">HEAR IT</string>
 </resources>

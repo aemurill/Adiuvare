@@ -1,22 +1,21 @@
 package edu.ucsc.cmps121.adiuvare;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,11 +23,12 @@ import java.util.ArrayList;
 public class ListeningScreen extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mText;
+    private String mTextStorage;
     private SpeechRecognizer sr;
     private static final String TAG = "Adiuvare Listens";
+    private ImageView ledIndicator;
 
     Dialog helpDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +42,36 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         ImageButton speakButton = (ImageButton) findViewById(R.id.listenButton);
         mText = (TextView) findViewById(R.id.displayVocal);
 
+        ledIndicator = (ImageView) findViewById(R.id.ledIndicator);
+
         // set the listener for the speak button and create new speech recognizer
         speakButton.setOnClickListener(this);
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(new listener());
+
+        helpDialog = new Dialog(this);
     }
 
+    public void showPopup(View v) {
+        helpDialog.setContentView(R.layout.how_to_use_popup_sr);
+        TextView textClose = (TextView) helpDialog.findViewById(R.id.textClose);
+        textClose.setOnClickListener(this);
+        /*textClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpDialog.dismiss();
+            }
+        });*/
+        helpDialog.show();
+    }
 
     class listener implements RecognitionListener {
         // need a method for each to implement the recognition listener
         public void onReadyForSpeech(Bundle params) {
+            ledIndicator.setImageResource(R.mipmap.lighton);
             Log.d(TAG, "onReadyForSpeech");
         }
-        public void onBeginningOfSpeech() {
-            Log.d(TAG, "onBeginningOfSpeech");
-        }
+        public void onBeginningOfSpeech() {Log.d(TAG, "onBeginningOfSpeech");}
         public void onRmsChanged(float rmsdB) {
             Log.d(TAG, "onRmsChanged");
         }
@@ -66,9 +81,11 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         }
         public void onEndOfSpeech() {
             Log.d(TAG, "onEndofSpeech");
-        } // TO-DO ADD THE RECORDING LIGHT HERE
+            ledIndicator.setImageResource(R.mipmap.lightoff);
+        }
         public void onError(int error) {
             Log.d(TAG,  "error " +  error);
+            ledIndicator.setImageResource(R.mipmap.lightoff);
         }
 
         // right now just logging the first result, but in the next phase we can check the confidence
@@ -80,7 +97,22 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
             {
                 Log.d(TAG, "result " + data.get(i));
             }
-            mText.setText(mText.getText() + "\n" + data.get(0)); // append new results underneath for now
+            String temp = ((String) data.get(0)).substring(0, 1).toUpperCase() + ((String) data.get(0)).substring(1);
+            if(mTextStorage != null) {
+                mTextStorage += "\n" + temp;
+            }else{
+                mTextStorage = temp;
+            }
+            mText.setText(mTextStorage); // append new results underneath for now
+            final ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView);
+
+            scrollView.post(new Runnable()
+            {
+                public void run()
+                {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
+                }
+            });
         }
         // later (phase 2) we might want to use this to display results in real time, & append current string,
         // then we would want the textview to be scrollable and appendable!
@@ -100,6 +132,8 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
             sr.startListening(intent);
+        }else if (v.getId() == R.id.textClose) {
+            helpDialog.dismiss();
         }
     }
 

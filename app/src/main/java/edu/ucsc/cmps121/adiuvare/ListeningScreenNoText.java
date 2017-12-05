@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
@@ -50,7 +49,6 @@ public class   ListeningScreenNoText extends AppCompatActivity implements View.O
             Log.i(TAG, "Clicked");
             if(state) {
                 requestRecordAudioPermission();
-                Toast.makeText(this, "CLICKED: "+state , Toast.LENGTH_LONG).show();
                 ledIndicator.setImageResource(R.mipmap.lighton);
                 m_thread = new Thread(new Runnable() {
 
