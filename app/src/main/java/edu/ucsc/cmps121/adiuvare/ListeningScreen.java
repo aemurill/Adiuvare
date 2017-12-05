@@ -15,6 +15,7 @@ import android.view.View;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
     private ImageView ledIndicator;
 
     Dialog helpDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,15 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
             }
             Log.d(TAG, "result " + mTextStorage);
             mText.setText(mTextStorage); // append new results underneath for now
+            final ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView);
+
+            scrollView.post(new Runnable()
+            {
+                public void run()
+                {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
+                }
+            });
         }
         // later (phase 2) we might want to use this to display results in real time, & append current string,
         // then we would want the textview to be scrollable and appendable!
