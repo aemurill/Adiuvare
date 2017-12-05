@@ -6,15 +6,16 @@
     android:background="@color/colorPrimaryDark"
     android:padding="5dp"
     android:layout_gravity="center">
+
     <TextView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:text="X"
-        android:textStyle="bold"
         android:layout_gravity="end"
+        android:background="@drawable/circlebackground"
         android:gravity="center"
+        android:text="@string/x"
         android:textColor="@color/white"
-        android:background="@drawable/circlebackground"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="@string/Language"
             android:textColor="@color/white" />
         <Spinner

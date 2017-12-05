@@ -1,16 +1,13 @@
 package edu.ucsc.cmps121.adiuvare;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +22,7 @@ import java.util.ArrayList;
 public class ListeningScreen extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mText;
+    private String mTextStorage;
     private SpeechRecognizer sr;
     private static final String TAG = "Adiuvare Listens";
     private ImageView ledIndicator;
@@ -50,8 +48,22 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         speakButton.setOnClickListener(this);
         sr = SpeechRecognizer.createSpeechRecognizer(this);
         sr.setRecognitionListener(new listener());
+
+        helpDialog = new Dialog(this);
     }
 
+    public void showPopup(View v) {
+        helpDialog.setContentView(R.layout.how_to_use_popup_sr);
+        TextView textClose = (TextView) helpDialog.findViewById(R.id.textClose);
+        textClose.setOnClickListener(this);
+        /*textClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helpDialog.dismiss();
+            }
+        });*/
+        helpDialog.show();
+    }
 
     class listener implements RecognitionListener {
         // need a method for each to implement the recognition listener
@@ -78,15 +90,19 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         // right now just logging the first result, but in the next phase we can check the confidence
         // of each result and then just log (display) the result with the highest confidence level!
         public void onResults(Bundle results) {
-            String str = "";
             Log.d(TAG, "onResults " + results);
             ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             for (int i = 0; i < data.size(); i++)
             {
                 Log.d(TAG, "result " + data.get(i));
-                str += data.get(i);
             }
-            mText.setText(mText.getText() + "\n" + data.get(0)); // append new results underneath for now
+            if(mTextStorage != null) {
+                mTextStorage = mTextStorage + "\n" + data.get(0);
+            }else{
+                mTextStorage = (String) data.get(0);
+            }
+            Log.d(TAG, "result " + mTextStorage);
+            mText.setText(mTextStorage); // append new results underneath for now
         }
         // later (phase 2) we might want to use this to display results in real time, & append current string,
         // then we would want the textview to be scrollable and appendable!
@@ -106,6 +122,8 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
             sr.startListening(intent);
+        }else if (v.getId() == R.id.textClose) {
+            helpDialog.dismiss();
         }
     }
 

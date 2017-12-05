@@ -8,41 +8,43 @@
     tools:context="edu.ucsc.cmps121.adiuvare.ListeningScreenNoText">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/helpButton"
-            android:onClick="showPopup"
-            android:layout_marginTop="10dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/Help"
-            android:textSize="30dp"
-            android:textStyle="bold"
             android:layout_gravity="end"
+            android:layout_marginRight="8sp"
+            android:layout_marginTop="8sp"
+            android:background="@drawable/circlebackground"
             android:gravity="center"
+            android:onClick="showPopup"
+            android:text="@string/Help"
             android:textColor="@color/white"
-            android:background="@drawable/circlebackground"/>
+            android:textSize="30sp"
+            android:textStyle="bold" android:layout_marginEnd="8sp"/>
 
         <ImageButton
             android:id="@+id/amplifyAudio"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_weight="1"
             android:background="@null"
+            android:contentDescription="@string/microphone_button"
             android:scaleType="fitCenter"
             android:src="@mipmap/microphone" />
+
         <ImageView
             android:id="@+id/ledIndicator"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
             android:layout_width="100dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/lightoff"/>
+            android:layout_weight="1"
+            android:contentDescription="@string/led_indicator_light"
+            android:src="@mipmap/lightoff" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
