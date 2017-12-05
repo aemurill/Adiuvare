@@ -41,7 +41,7 @@
                 android:layout_height="88dp"
                 android:contentDescription="@string/microphone_button"
                 android:paddingTop="15dp"
-                android:src="@mipmap/microphone" />
+                android:src="@drawable/micimage" />
 
             <TextView
                 android:layout_width="wrap_content"
