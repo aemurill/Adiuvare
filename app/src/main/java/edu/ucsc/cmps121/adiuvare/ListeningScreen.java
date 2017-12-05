@@ -96,10 +96,11 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
             {
                 Log.d(TAG, "result " + data.get(i));
             }
+            String temp = ((String) data.get(0)).substring(0, 1).toUpperCase() + ((String) data.get(0)).substring(1);
             if(mTextStorage != null) {
-                mTextStorage = mTextStorage + "\n" + data.get(0);
+                mTextStorage += "\n" + temp;
             }else{
-                mTextStorage = (String) data.get(0);
+                mTextStorage = temp;
             }
             Log.d(TAG, "result " + mTextStorage);
             mText.setText(mTextStorage); // append new results underneath for now
