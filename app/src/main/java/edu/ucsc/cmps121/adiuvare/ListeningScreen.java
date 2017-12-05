@@ -74,13 +74,11 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         // right now just logging the first result, but in the next phase we can check the confidence
         // of each result and then just log (display) the result with the highest confidence level!
         public void onResults(Bundle results) {
-            String str = "";
             Log.d(TAG, "onResults " + results);
             ArrayList data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             for (int i = 0; i < data.size(); i++)
             {
                 Log.d(TAG, "result " + data.get(i));
-                str += data.get(i);
             }
             mText.setText(mText.getText() + "\n" + data.get(0)); // append new results underneath for now
         }
