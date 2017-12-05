@@ -21,15 +21,16 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
-            android:layout_marginRight="8sp"
-            android:layout_marginTop="8sp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/circlebackground"
             android:gravity="center"
             android:onClick="showPopup"
             android:text="@string/Help"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:textStyle="bold" android:layout_marginEnd="8sp" />
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/listenButton"
@@ -66,6 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="40sp" />
