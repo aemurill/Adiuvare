@@ -9,4 +9,6 @@
     <string name="LightInfo">This light turns on while listening session is active</string>
     <string name="Help">\u003f</string>
     <string name="HeadsetInfo">To avoid microphone feedback, make sure a headset is connected to mobile device</string>
+    <string name="Language">Change Language</string>
+    <string-array name="LanguageOptions"></string-array>
 </resources>

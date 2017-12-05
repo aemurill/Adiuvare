@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
     private TextView mText;
     private SpeechRecognizer sr;
     private static final String TAG = "Adiuvare Listens";
+    private ImageView ledIndicator;
 
     Dialog helpDialog;
 
@@ -42,6 +44,8 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         ImageButton speakButton = (ImageButton) findViewById(R.id.listenButton);
         mText = (TextView) findViewById(R.id.displayVocal);
 
+        ledIndicator = (ImageView) findViewById(R.id.ledIndicator);
+
         // set the listener for the speak button and create new speech recognizer
         speakButton.setOnClickListener(this);
         sr = SpeechRecognizer.createSpeechRecognizer(this);
@@ -52,11 +56,10 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
     class listener implements RecognitionListener {
         // need a method for each to implement the recognition listener
         public void onReadyForSpeech(Bundle params) {
+            ledIndicator.setImageResource(R.mipmap.lighton);
             Log.d(TAG, "onReadyForSpeech");
         }
-        public void onBeginningOfSpeech() {
-            Log.d(TAG, "onBeginningOfSpeech");
-        }
+        public void onBeginningOfSpeech() {Log.d(TAG, "onBeginningOfSpeech");}
         public void onRmsChanged(float rmsdB) {
             Log.d(TAG, "onRmsChanged");
         }
@@ -66,6 +69,7 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
         }
         public void onEndOfSpeech() {
             Log.d(TAG, "onEndofSpeech");
+            ledIndicator.setImageResource(R.mipmap.lightoff);
         } // TO-DO ADD THE RECORDING LIGHT HERE
         public void onError(int error) {
             Log.d(TAG,  "error " +  error);

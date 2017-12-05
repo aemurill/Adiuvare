@@ -22,11 +22,21 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/RecognitionSensitivity"
+            android:textSize="20dp"
+            android:text="@string/Language"
             android:textColor="@color/white" />
+        <Spinner
+            android:id="@+id/languagesSpinner"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
         <SeekBar
             android:id="@+id/recSenBar"
             android:layout_width="fill_parent"
