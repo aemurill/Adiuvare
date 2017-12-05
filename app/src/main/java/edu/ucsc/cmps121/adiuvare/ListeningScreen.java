@@ -102,7 +102,6 @@ public class ListeningScreen extends AppCompatActivity implements View.OnClickLi
             }else{
                 mTextStorage = temp;
             }
-            Log.d(TAG, "result " + mTextStorage);
             mText.setText(mTextStorage); // append new results underneath for now
             final ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView);
 
