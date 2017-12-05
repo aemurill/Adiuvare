@@ -40,7 +40,7 @@
             android:background="@null"
             android:contentDescription="@string/microphone_button"
             android:scaleType="fitCenter"
-            android:src="@mipmap/microphone" />
+            android:src="@drawable/micimage" />
 
         <ImageView
             android:id="@+id/ledIndicator"

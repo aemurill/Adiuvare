@@ -25,17 +25,17 @@
             android:text="@string/Help"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:textStyle="bold" android:layout_marginEnd="8sp"/>
+            android:textStyle="bold" android:layout_marginEnd="8sp" />
 
         <ImageButton
             android:id="@+id/amplifyAudio"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/microphone_button"
             android:scaleType="fitCenter"
-            android:src="@mipmap/microphone" />
+            android:src="@drawable/micimage" />
 
         <ImageView
             android:id="@+id/ledIndicator"
