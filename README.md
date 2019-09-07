@@ -1,4 +1,5 @@
 # Adiuvare
+## This Repo is a mirror
 
 A hearing disability assistance app for Android.
 Done as part of a project in UCSC's Mobile App Development Class in Dec 2017.
